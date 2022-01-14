@@ -4,8 +4,8 @@ import React, { createContext, ReactNode, useEffect, useState } from "react";
 import api from "../setup/api/api";
 import { IUsers } from "../types/TypeModels";
 
-type AuthContextType = {
-  handleLogin({ cpf, senha }: UserData): Promise<void>;
+interface AuthContextType {
+  handleLogin({ email, senha }: IPropsUserLogin): Promise<void>;
 
   setAutorization: React.Dispatch<React.SetStateAction<boolean>>;
   autorization: boolean;
@@ -15,14 +15,14 @@ type AuthContextType = {
 
   token: TokenState;
   loading: boolean;
-};
+}
 
-type AuthContextProviderProps = {
+interface AuthContextProviderProps {
   children: ReactNode;
-};
+}
 
-interface UserData {
-  cpf: string;
+interface IPropsUserLogin {
+  email: string;
   senha: string;
 }
 
@@ -39,7 +39,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   const [userPerfil, setUserPerfil] = useState();
 
   const [token, setToken] = useState<TokenState>(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("SystemBroker:token");
 
     if (token) {
       api.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -50,7 +50,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
 
   useEffect(() => {
     const testTokenValid = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("SystemBroker:token");
       setLoading(true);
 
       try {
@@ -76,7 +76,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     testTokenValid();
   }, [token]);
 
-  const handleLogin = async (data: UserData) => {
+  const handleLogin = async (data: IPropsUserLogin) => {
     await api
       .post("/login", data)
 
@@ -85,7 +85,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
 
         setToken(token);
 
-        localStorage.setItem("token", token);
+        localStorage.setItem("SystemBroker:token", token);
 
         api.defaults.headers.common.Authorization = `Bearer ${token}`;
 

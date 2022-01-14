@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 
 import { TextField } from "@material-ui/core";
@@ -12,6 +13,9 @@ interface IPros {
   name: string;
   autoComplete?: string;
   type?: string;
+  value?: string;
+  onChange?: any;
+  onBlur?: () => void;
 }
 const CssTextField = styled(TextField)({
   "& label.Mui-focused": {
@@ -27,6 +31,9 @@ const FieldFormik = ({
   name,
   autoComplete,
   type,
+  onBlur,
+  onChange,
+  value,
   ...otherProps
 }: IPros) => {
   const [field, mata] = useField(name);
@@ -40,6 +47,9 @@ const FieldFormik = ({
     label,
     autoComplete,
     type,
+    onBlur,
+    onChange,
+    value,
   };
 
   if (mata && mata.touched && mata.error) {

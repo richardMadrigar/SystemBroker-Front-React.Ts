@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-alert */
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
@@ -7,18 +8,30 @@ import { Form, Formik } from "formik";
 import { Box, Button } from "@mui/material";
 
 import { AuthContext } from "../../../context/authContext";
+import api from "../../../setup/api/api";
 import { loginSchemaHome } from "../../../setup/schemaYUP/schemasProject";
 import { styleDefaultComp } from "../../../stylesTheme/StylesDefault";
 import theme from "../../../stylesTheme/Theme";
+import ControllableStates from "./components/InputSelect";
 import StepperBorder from "./components/StepperBorder";
 import FieldFormik from "./components/TextFieldFormikPerson";
 
 const Login = () => {
   const { handleLogin } = useContext(AuthContext);
+  const [value, setValue] = useState("");
 
   const [changePassword] = useState("password");
   const [loading, setLoading] = useState(false);
 
+  const handleSearchEmpresa = async (value: any) => {
+    console.log(value);
+
+    await api.post("/selectEmpresas").then((response) => {
+      console.log(response.data);
+    });
+  };
+
+  const isDisabled = false;
   // const handlePassword = () => {
   //   return changePassword === "password"
   //     ? setChangePassword("text")
@@ -27,7 +40,7 @@ const Login = () => {
 
   return (
     <Formik
-      initialValues={{ cpf: "", senha: "" }}
+      initialValues={{ email: "", senha: "" }}
       validationSchema={loginSchemaHome}
       onSubmit={async (values) => {
         setLoading(true);
@@ -71,10 +84,23 @@ const Login = () => {
 
             <Box>
               <Box mb="2rem">
-                <FieldFormik name="cpf" label="Email" />
+                <FieldFormik
+                  name="email"
+                  label="Email"
+                  onBlur={() => handleSearchEmpresa(value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setValue(e.target.value)
+                  }
+                />
               </Box>
-              <Box mb="3rem">
+              <Box mb="2rem">
                 <FieldFormik name="senha" label="Senha" type={changePassword} />
+              </Box>
+              <Box mb="2rem">
+                <ControllableStates
+                  disabled={isDisabled}
+                  title="Escolha uma empresa"
+                />
               </Box>
             </Box>
 
