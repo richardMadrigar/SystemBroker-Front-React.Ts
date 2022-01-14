@@ -1,9 +1,9 @@
 import * as Yup from "yup";
 
 export const loginSchemaHome = Yup.object().shape({
-  cpf: Yup.string()
-    .min(11, "Quantidade caracteres invalido")
-    .max(11, "Limite máximo de 11 caracteres")
+  email: Yup.string()
+    .max(200, "Limite máximo de 200 caracteres")
+    .email("Formato de E-mail inválido")
     .required("Esse campo é obrigatório"),
   senha: Yup.string()
     .min(5, "Senha minima de 5 caracteres")

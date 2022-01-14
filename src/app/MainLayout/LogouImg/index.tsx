@@ -16,7 +16,7 @@ const ImgLogout = () => {
   const { userPerfil, setAutorization } = useContext(AuthContext);
 
   const logout = async () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("SystemBroker:token");
 
     setAutorization(false);
   };
