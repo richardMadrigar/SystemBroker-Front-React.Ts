@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const loginSchemaHome = Yup.object().shape({
+export const SchemaLoginHome = Yup.object().shape({
   email: Yup.string()
     .max(200, "Limite máximo de 200 caracteres")
     .email("Formato de E-mail inválido")

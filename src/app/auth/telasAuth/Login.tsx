@@ -9,7 +9,7 @@ import { Box, Button } from "@mui/material";
 
 import { AuthContext } from "../../../context/authContext";
 import api from "../../../setup/api/api";
-import { loginSchemaHome } from "../../../setup/schemaYUP/schemasProject";
+import { SchemaLoginHome } from "../../../setup/schemaYUP/schemasProject";
 import { styleDefaultComp } from "../../../stylesTheme/StylesDefault";
 import theme from "../../../stylesTheme/Theme";
 import ControllableStates from "./components/InputSelect";
@@ -19,6 +19,7 @@ import FieldFormik from "./components/TextFieldFormikPerson";
 const Login = () => {
   const { handleLogin } = useContext(AuthContext);
   const [value, setValue] = useState("");
+  const [values, setValues] = useState("");
 
   const [changePassword] = useState("password");
   const [loading, setLoading] = useState(false);
@@ -28,10 +29,11 @@ const Login = () => {
 
     await api.post("/selectEmpresas").then((response) => {
       console.log(response.data);
+      setValues(response.data);
     });
   };
 
-  const isDisabled = false;
+  const isDisabled = values === "";
   // const handlePassword = () => {
   //   return changePassword === "password"
   //     ? setChangePassword("text")
@@ -41,7 +43,7 @@ const Login = () => {
   return (
     <Formik
       initialValues={{ email: "", senha: "" }}
-      validationSchema={loginSchemaHome}
+      validationSchema={SchemaLoginHome}
       onSubmit={async (values) => {
         setLoading(true);
         try {
@@ -100,6 +102,7 @@ const Login = () => {
                 <ControllableStates
                   disabled={isDisabled}
                   title="Escolha uma empresa"
+                  values={values}
                 />
               </Box>
             </Box>

@@ -1,33 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 
-const options = ["oprtion 1", "Option 2", "ms", "teste"];
-
 interface IPropsInputControl {
   title?: string;
   disabled?: boolean | undefined;
+  values?: any;
 }
 
-const ControllableStates = ({ title, disabled }: IPropsInputControl) => {
-  const [value, setValue] = useState<string | null>(options[0]);
-  const [inputValue, setInputValue] = React.useState("");
+const ControllableStates = ({
+  title,
+  values,
+  ...props
+}: IPropsInputControl) => {
+  const [inputValue, setInputValue] = useState("");
 
-  const configTextfield = {
-    disabled,
-  };
+  // const configTextfield = { disabled };
 
   return (
     <div>
       <Autocomplete
-        {...configTextfield}
-        value={value}
+        {...props}
+        // {...configTextfield}
+        value={inputValue}
         inputValue={inputValue}
-        options={options}
-        onChange={(event, newValue: string | null) => {
-          setValue(newValue);
-        }}
+        options={values}
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
         }}
