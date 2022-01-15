@@ -5,9 +5,9 @@ import { Box } from "@mui/material";
 import theme from "../../../../stylesTheme/Theme";
 
 interface IPropsStepper {
-  isEmpresa?: boolean;
+  isBorder?: boolean;
 }
-function StepperBorder({ isEmpresa }: IPropsStepper) {
+function StepperBorder({ isBorder }: IPropsStepper) {
   return (
     <Box display="flex" mb="2rem">
       <Box
@@ -16,7 +16,7 @@ function StepperBorder({ isEmpresa }: IPropsStepper) {
         sx={{ borderBottom: "3px solid", width: "20%" }}
       />
       <Box
-        color={isEmpresa ? theme.home.color : "#D0E1Fd"}
+        color={isBorder ? theme.home.color : "#D0E1Fd"}
         sx={{ borderBottom: "3px solid", width: "20%" }}
       />
     </Box>

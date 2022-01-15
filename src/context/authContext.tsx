@@ -1,11 +1,17 @@
 /* eslint-disable no-alert */
-import React, { createContext, ReactNode, useEffect, useState } from "react";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import api from "../setup/api/api";
 import { IUsers } from "../types/TypeModels";
 
 interface AuthContextType {
-  handleLogin({ email, senha }: IPropsUserLogin): Promise<void>;
+  handleLogin({ senha }: IPropsUserLogin): Promise<void>;
 
   setAutorization: React.Dispatch<React.SetStateAction<boolean>>;
   autorization: boolean;
@@ -22,7 +28,7 @@ interface AuthContextProviderProps {
 }
 
 interface IPropsUserLogin {
-  email: string;
+  // email: string;
   senha: string;
 }
 
@@ -113,3 +119,10 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     </AuthContext.Provider>
   );
 }
+
+const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  return context;
+};
+
+export { useAuth };

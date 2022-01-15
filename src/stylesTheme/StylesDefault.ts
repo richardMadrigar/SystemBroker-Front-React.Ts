@@ -45,6 +45,7 @@ export const styleDefaultComp = {
       color: "white",
     },
   },
+
   buttonHomePassword: {
     color: theme.home.color,
 

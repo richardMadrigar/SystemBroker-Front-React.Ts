@@ -1,10 +1,10 @@
 import * as Yup from "yup";
 
 export const SchemaLoginHome = Yup.object().shape({
-  email: Yup.string()
-    .max(200, "Limite máximo de 200 caracteres")
-    .email("Formato de E-mail inválido")
-    .required("Esse campo é obrigatório"),
+  // email: Yup.string()
+  //   .max(200, "Limite máximo de 200 caracteres")
+  //   .email("Formato de E-mail inválido")
+  //   .required("Esse campo é obrigatório"),
   senha: Yup.string()
     .min(5, "Senha minima de 5 caracteres")
     .max(20, "Limite máximo de 20 caracteres")

@@ -9,7 +9,6 @@ import { AuthContext } from "../../../context/authContext";
 import api from "../../../setup/api/api";
 import { styleDefaultComp } from "../../../stylesTheme/StylesDefault";
 import { IEmpresasLogin } from "../../../types/TypeModels";
-import ControllableStates from "./components/InputSelect";
 import StepperBorder from "./components/StepperBorder";
 
 const Register = () => {
@@ -55,17 +54,7 @@ const Register = () => {
               >
                 Escolha uma empresa
               </Typography>
-
-              <StepperBorder isEmpresa />
-
-              <Box>
-                <Box mb="2rem">
-                  <ControllableStates title="Escolha uma empresa" />
-                </Box>
-                <Box mb="3rem">
-                  <ControllableStates title="Escolha um usuário" />
-                </Box>
-              </Box>
+              <StepperBorder isBorder />
 
               <div className="text-center m-3">
                 <Button

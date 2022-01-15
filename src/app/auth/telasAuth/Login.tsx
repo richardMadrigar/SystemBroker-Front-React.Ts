@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-alert */
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
@@ -14,26 +13,28 @@ import { styleDefaultComp } from "../../../stylesTheme/StylesDefault";
 import theme from "../../../stylesTheme/Theme";
 import ControllableStates from "./components/InputSelect";
 import StepperBorder from "./components/StepperBorder";
-import FieldFormik from "./components/TextFieldFormikPerson";
+import { FieldFormik, FieldFormikk } from "./components/TextFieldFormikPerson";
 
 const Login = () => {
   const { handleLogin } = useContext(AuthContext);
-  const [value, setValue] = useState("");
-  const [values, setValues] = useState("");
+
+  const [valueEmail, setValueEmail] = useState("");
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [valuesAutoComplete, setValuesAutoComplete] = useState<string[]>([]);
 
   const [changePassword] = useState("password");
   const [loading, setLoading] = useState(false);
 
-  const handleSearchEmpresa = async (value: any) => {
-    console.log(value);
+  const handleSearchEmpresa = async (valueEmail: string) => {
+    console.log(valueEmail);
 
     await api.post("/selectEmpresas").then((response) => {
       console.log(response.data);
-      setValues(response.data);
+      setIsDisabled(false);
+      setValuesAutoComplete(response.data);
     });
   };
 
-  const isDisabled = values === "";
   // const handlePassword = () => {
   //   return changePassword === "password"
   //     ? setChangePassword("text")
@@ -42,9 +43,11 @@ const Login = () => {
 
   return (
     <Formik
-      initialValues={{ email: "", senha: "" }}
+      initialValues={{ senha: "" }}
       validationSchema={SchemaLoginHome}
       onSubmit={async (values) => {
+        console.log(valueEmail);
+
         setLoading(true);
         try {
           await handleLogin(values);
@@ -89,20 +92,25 @@ const Login = () => {
                 <FieldFormik
                   name="email"
                   label="Email"
-                  onBlur={() => handleSearchEmpresa(value)}
+                  onBlur={() => handleSearchEmpresa(valueEmail)}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setValue(e.target.value)
+                    setValueEmail(e.target.value)
                   }
+                  value={valueEmail}
                 />
               </Box>
               <Box mb="2rem">
-                <FieldFormik name="senha" label="Senha" type={changePassword} />
+                <FieldFormikk
+                  name="senha"
+                  label="Senha"
+                  type={changePassword}
+                />
               </Box>
               <Box mb="2rem">
                 <ControllableStates
                   disabled={isDisabled}
                   title="Escolha uma empresa"
-                  values={values}
+                  values={valuesAutoComplete}
                 />
               </Box>
             </Box>
